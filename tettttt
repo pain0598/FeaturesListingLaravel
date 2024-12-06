@@ -1,0 +1,473 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Thank You for Contacting Us</title>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            color: #333;
+            line-height: 1.5;
+            background-color: #f7f7f7;
+            padding: 20px;
+        }
+
+        .container {
+            max-width: 600px;
+            margin: 0 auto;
+            background-color: #ffffff;
+            padding: 20px;
+            border-radius: 8px;
+            box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+        }
+
+        h1 {
+            color: #007bff;
+        }
+
+        p {
+            font-size: 16px;
+            color: #555555;
+        }
+
+        .footer {
+            text-align: center;
+            font-size: 12px;
+            color: #888888;
+            margin-top: 20px;
+        }
+
+        .logo {
+            max-width: 150px;
+            margin-bottom: 20px;
+        }
+
+        .btn {
+            background-color: #007bff;
+            color: #ffffff;
+            text-decoration: none;
+            padding: 10px 20px;
+            border-radius: 5px;
+            display: inline-block;
+            margin-top: 20px;
+        }
+    </style>
+</head>
+
+<body>
+
+    <div class="container">
+        <img src="https://www.rentapartments.info/Gallery/logo/1/logovitalg.png" alt="Company Logo" class="logo">
+        <h1>Thank You for Contacting Us!</h1>
+
+        <p>Dear {{ $details['name'] }},</p>
+
+        <p>Thank you for reaching out to us. We have received your message and will get back to you as soon as possible. Your message was:</p>
+
+        <blockquote>
+            <p><strong>Message:</strong> {{ $details['message'] }}</p>
+        </blockquote>
+
+        <p>We appreciate your interest and we are here to assist you with any questions or concerns. Our team will review your message and get back to you shortly.</p>
+
+        <p>If you have any urgent queries, feel free to contact us directly at <strong>support@yourdomain.com</strong>.</p>
+
+        <a href="{{ url('/') }}" class="btn">Go to Our Website</a>
+
+        <div class="footer">
+            <p>&copy; {{ date('Y') }} Your Company. All rights reserved.</p>
+        </div>
+    </div>
+
+</body>
+
+</html>
+
+<!-- MAIL_MAILER=smtp
+MAIL_HOST=sandbox.smtp.mailtrap.io
+MAIL_PORT=2525
+MAIL_USERNAME=2a634e31fdf19d
+MAIL_PASSWORD=b609bff95c8b21
+MAIL_ENCRYPTION=null
+MAIL_FROM_ADDRESS=no-reply@yourdomain.com
+MAIL_FROM_NAME="${APP_NAME}" -->
+
+@extends('layout.app')
+@section('content')
+<style>
+    #search-box {
+        position: relative;
+        width: 100%;
+        margin: 0;
+    }
+
+    #search-form {
+        height: 40px;
+        border: 1px solid #999;
+        -webkit-border-radius: 5px;
+        -moz-border-radius: 5px;
+        border-radius: 5px;
+        background-color: #fff;
+        overflow: hidden;
+    }
+
+    #search-text {
+        font-size: 14px;
+        color: #ddd;
+        border-width: 0;
+        background: transparent;
+    }
+
+    #search-box input[type="text"] {
+        width: 90%;
+        padding: 11px 0 12px 1em;
+        color: #333;
+        outline: none;
+    }
+
+    #search-button {
+        position: absolute;
+        top: 0;
+        right: 0;
+        height: 42px;
+        width: 80px;
+        font-size: 14px;
+        color: #fff;
+        text-align: center;
+        line-height: 42px;
+        border-width: 0;
+        background-color: #4d90fe;
+        -webkit-border-radius: 0px 5px 5px 0px;
+        -moz-border-radius: 0px 5px 5px 0px;
+        border-radius: 0px 5px 5px 0px;
+        cursor: pointer;
+    }
+</style>
+<div class="slim-mainpanel">
+    <div class="container">
+        <div class="slim-pageheader">
+            <ol class="breadcrumb slim-breadcrumb">
+                <li class="breadcrumb-item"><a href="#">Home</a></li>
+                <li class="breadcrumb-item active" aria-current="page">Dashboard</li>
+            </ol>
+            <h6 class="slim-pagetitle">Dashboard 01</h6>
+        </div>
+        <div class="row row-sm">
+            <div class="col-lg-12">
+            <a href="{{ route('renter-info.export') }}" class="btn btn-success">Export All Records to CSV</a>
+
+                <div class="section-wrapper mg-t-20">
+                    <form action="">
+                        <div class="row">
+                            <div class="col-lg-6">
+                                <label class="form-control-label">From:</label>
+                                <div class="input-group">
+                                    <div class="input-group-prepend">
+                                        <div class="input-group-text">
+                                            <i class="fa fa-calendar tx-16 lh-0 op-6"></i>
+                                        </div>
+                                    </div>
+                                    <input id="dateMask" type="date" name="fromsearch" class="form-control" placeholder="MM/DD/YYYY">
+                                </div>
+                            </div>
+                            <div class="col-lg-6">
+                                <label class="form-control-label">To:</label>
+                                <div class="input-group">
+                                    <div class="input-group-prepend">
+                                        <div class="input-group-text">
+                                            <i class="fa fa-calendar tx-16 lh-0 op-6"></i>
+                                        </div>
+                                    </div>
+                                    <input id="dateMask" type="date" name="tosearch" class="form-control" placeholder="MM/DD/YYYY">
+                                </div>
+                            </div>
+
+
+                            <div class="col-lg-12 mt-4">
+                                <div class="form-group">
+                                    <label class="form-control-label">Admin Name: </label>
+                                    <input class="form-control" type="text" name="adminname" placeholder="Enter Admin Name">
+                                </div>
+                            </div>
+
+                            <div class="col-lg-12 mt-4">
+                                <div class="form-layout-footer" style="float: right;">
+                                    <button class="btn btn-primary bd-0">Search</button>
+                                    <button class="btn btn-secondary bd-0">Reset</button>
+                                </div>
+                            </div>
+
+                        </div>
+                    </form>
+                    <div class="table">
+                        <div class="table-responsive mg-t-20">
+                            <table class="table" id="renterinfoupdate">
+                                <thead>
+                                    <tr>
+                                        <th>ID</th>
+                                        <th>Name</th>
+                                        <th>Position</th>
+                                        <th>djkjl</th>
+                                        <th>Salary</th>
+                                    </tr>
+                                </thead>
+                            </table>
+                        </div>
+                    </div>
+                </div>
+
+
+            </div>
+        </div>
+    </div>
+</div>
+
+
+@endsection
+@push('scripts')
+<script src="{{asset('js/ajax.js')}}"></script>
+@endpush
+
+
+public function renterInfoUpdateHistory(Request $request)
+    {
+        $updateHistoryData = RenterUpdateHistory::with('admindetailId', 'renterinfoId');
+
+        if ($request->ajax()) {
+            if ($request->has('rentername') && $request->rentername != '') {
+                $updateHistoryData->whereHas('renterinfoId', function ($query) use ($request) {
+                    $query->where('Firstname', 'like', '%' . $request->rentername . '%');
+                });
+            }
+
+            if ($request->has('adminname') && $request->adminname != '') {
+                $updateHistoryData->whereHas('admindetailId', function ($query) use ($request) {
+                    $query->where('admin_name', 'like', '%' . $request->adminname . '%');
+                });
+            }
+
+            if ($request->has('fromsearch') && $request->fromsearch != '') {
+                $updateHistoryData->whereDate('updated_date', '>=', $request->fromsearch);
+            }
+
+            if ($request->has('tosearch') && $request->tosearch != '') {
+                $updateHistoryData->whereDate('updated_date', '<=', $request->tosearch);
+            }
+            return DataTables::of($updateHistoryData)
+                ->addIndexColumn()
+                ->addColumn('rentername', function ($query) {
+                    return $query->renterinfoId->Firstname ?? 'N/A';
+                })
+                ->addColumn('adminname', function ($query) {
+                    return $query->admindetailId->admin_name ?? 'N/A';
+                })
+                ->addColumn('updatedOn', function ($query) {
+                    return $query->updated_date ?? 'N/A';
+                })
+                ->addColumn('action', function ($query) {
+                    $edit = '<a href="" class="btn btn-sm btn-primary"><i class="fas fa-edit"></i></a>';
+                    $delete = '<a href="" class="delete-item btn btn-sm btn-danger ml-2"><i class="fas fa-trash"></i></a>';
+                    return $edit . $delete;
+                })
+                ->rawColumns(['rentername', 'adminname', 'updatedOn', 'action'])
+                ->setRowId('id')
+                ->make(true);
+        }
+        return view('client.renterInfoUpdateHistory');
+    }
+    // public function exportCsv(Request $request)
+    // {
+    //     $updateHistoryData = RenterUpdateHistory::with('admindetailId', 'renterinfoId');
+
+    //     // Apply filters if present
+    //     if ($request->has('rentername') && $request->rentername != '') {
+    //         $updateHistoryData->whereHas('renterinfoId', function ($query) use ($request) {
+    //             $query->where('Firstname', 'like', '%' . $request->rentername . '%');
+    //         });
+    //     }
+
+    //     if ($request->has('adminname') && $request->adminname != '') {
+    //         $updateHistoryData->whereHas('admindetailId', function ($query) use ($request) {
+    //             $query->where('admin_name', 'like', '%' . $request->adminname . '%');
+    //         });
+    //     }
+
+    //     if ($request->has('fromsearch') && $request->fromsearch != '') {
+    //         $updateHistoryData->whereDate('updated_date', '>=', $request->fromsearch);
+    //     }
+
+    //     if ($request->has('tosearch') && $request->tosearch != '') {
+    //         $updateHistoryData->whereDate('updated_date', '<=', $request->tosearch);
+    //     }
+
+    //     $records = $updateHistoryData->get();
+
+    //     $csvData = [
+    //         ['ID', 'Renter Name', 'Admin Name', 'Updated On'], // CSV Headers
+    //     ];
+
+    //     foreach ($records as $record) {
+    //         $csvData[] = [
+    //             $record->id,
+    //             $record->renterinfoId->Firstname ?? 'N/A',
+    //             $record->admindetailId->admin_name ?? 'N/A',
+    //             $record->updated_date ?? 'N/A',
+    //         ];
+    //     }
+
+    //     // Create and return CSV response
+    //     $filename = 'renter_info_update_history.csv';
+    //     $handle = fopen('php://output', 'w');
+    //     foreach ($csvData as $row) {
+    //         fputcsv($handle, $row);
+    //     }
+    //     fclose($handle);
+
+    //     $headers = [
+    //         'Content-Type' => 'text/csv',
+    //         'Content-Disposition' => "attachment; filename=\"$filename\"",
+    //     ];
+
+    //     return Response::make('', 200, $headers);
+    // }
+    public function exportCsv(Request $request)
+    {
+        $updateHistoryData = RenterUpdateHistory::with('admindetailId', 'renterinfoId');
+
+        // Apply filters if present
+        if ($request->has('rentername') && $request->rentername != '') {
+            $updateHistoryData->whereHas('renterinfoId', function ($query) use ($request) {
+                $query->where('Firstname', 'like', '%' . $request->rentername . '%');
+            });
+        }
+
+        if ($request->has('adminname') && $request->adminname != '') {
+            $updateHistoryData->whereHas('admindetailId', function ($query) use ($request) {
+                $query->where('admin_name', 'like', '%' . $request->adminname . '%');
+            });
+        }
+
+        if ($request->has('fromsearch') && $request->fromsearch != '') {
+            $updateHistoryData->whereDate('updated_date', '>=', $request->fromsearch);
+        }
+
+        if ($request->has('tosearch') && $request->tosearch != '') {
+            $updateHistoryData->whereDate('updated_date', '<=', $request->tosearch);
+        }
+
+        $records = $updateHistoryData->get();
+
+        $csvData = [
+            ['ID', 'Renter Name', 'Admin Name', 'Updated On'], // CSV Headers
+        ];
+
+        foreach ($records as $record) {
+            $csvData[] = [
+                $record->id,
+                $record->renterinfoId->Firstname ?? 'N/A',
+                $record->admindetailId->admin_name ?? 'N/A',
+                $record->updated_date ?? 'N/A',
+            ];
+        }
+
+        $filename = 'renter_info_update_history.csv';
+
+        $headers = [
+            'Content-Type' => 'text/csv',
+            'Content-Disposition' => "attachment; filename=\"$filename\"",
+        ];
+
+        // Open output stream for download
+        $handle = fopen('php://output', 'w');
+
+        // Add CSV rows
+        foreach ($csvData as $row) {
+            fputcsv($handle, $row);
+        }
+
+        fclose($handle);
+
+        return response()->streamDownload(function () use ($csvData) {
+            $handle = fopen('php://output', 'w');
+            foreach ($csvData as $row) {
+                fputcsv($handle, $row);
+            }
+            fclose($handle);
+        }, $filename, $headers);
+    }
+
+$(function () {
+    var table = $("#renterinfoupdate").DataTable({
+        processing: true,
+        serverSide: true,
+        ajax: {
+            url: "renter-info-update-history",
+            data: function (d) {
+                d.rentername = $("input[name='rentername']").val();
+                d.adminname = $("input[name='adminname']").val();
+                d.fromsearch = $("input[name='fromsearch']").val();
+                d.tosearch = $("input[name='tosearch']").val();
+            },
+        },
+        columns: [{
+            data: "DT_RowIndex",
+            name: "DT_RowIndex",
+            orderable: true,
+            searchable: true,
+        },
+        {
+            data: 'rentername',
+            name: 'rentername',
+            orderable: true,
+            searchable: true,
+        },
+        {
+            data: 'adminname',
+            name: 'adminname',
+            orderable: true,
+            searchable: true,
+        },
+        {
+            data: 'updatedOn',
+            name: 'updatedOn',
+            orderable: true,
+            searchable: true,
+        },
+        {
+            data: 'action',
+            name: 'action',
+            orderable: false,
+            searchable: false
+        }
+        ],
+        order: [
+            [1, "asc"]
+        ],
+        pageLength: 40,
+        dom: "Bfrtip",
+        buttons: ["csv"],
+    });
+    $("form").on("submit", function (e) {
+        e.preventDefault();
+        table.draw();
+    });
+
+    // Reset form fields and reload the Datatable
+    $("button:contains('Reset')").on("click", function () {
+        $("form")[0].reset();
+        table.draw();
+    });
+    $('#exportCsv').on('click', function () {
+        let query = {
+            rentername: $("input[name='rentername']").val(),
+            adminname: $("input[name='adminname']").val(),
+            fromsearch: $("input[name='fromsearch']").val(),
+            tosearch: $("input[name='tosearch']").val(),
+        };
+
+        let url = `renter-info-update-history/export?${$.param(query)}`;
+        window.location.href = url;
+    });
+});
